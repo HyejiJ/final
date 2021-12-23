@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEART</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="p5.js"></script>
+
+  <script src="p5.speech.js"></script>
+  <script>
+    var myRec = new p5.SpeechRec();
+    let koFont;
+    let rotation = 0;
+
+    function preload() {
+      koFont = loadFont(
+        'https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112-2@1.0/ACCchildrenheartOTF-Regular.woff');
+    }
+
+    function setup() {
+      
+      createCanvas(windowWidth, windowHeight);
+      background(0);
+      fill(255, 0, 0);
+      textSize(32);
+      textAlign(CENTER);
+      textFont(koFont);
+      text("사랑해라고 외쳐보세요!", width / 2, height / 2 - 10);
+      text("say, I love you", width / 2, height / 2 + 20);
+      myRec.onResult = showResult;
+      myRec.start();
+    }
+
+    function draw() {
+    
+    }
+
+    function showResult() {
+
+      if (myRec.resultString.indexOf("사랑해") != -1) {
+        background(0);
+        noStroke();
+        fill(255, 0, 0);
+        heart(width / 2, height / 2 - (height/5), height / 2);
+
+      } else {
+        background(0);
+        fill(180);
+        text(myRec.resultString, width / 2, height / 2);
+      }
+
+      console.log(myRec.resultString);
+    }
+
+    function heart(x, y, size) {
+      beginShape();
+      vertex(x, y);
+      bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+      bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+      endShape(CLOSE);
+    }
+  </script>
+
+</head>
+
+<body>
+  <main>
+  </main>
+</body>
+
+</html>
